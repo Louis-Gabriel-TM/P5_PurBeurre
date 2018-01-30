@@ -4,11 +4,11 @@ This repository contains the Python / MySQL scripts and additional files of my _
 
 This application is based on the __*Open Food Facts database*__ and uses its API.
 
-## The aim of *Pur Beurre*
+### The aim of *Pur Beurre*
 
 *Pur Beurre* is a fictive *start up* whose offer a *very simple* application that __*allows a consumer to obtain, for a chosen product, a healthier alternative*__.
 
-# How to use Pur Beurre
+## How to use Pur Beurre
 
 Choose one of this two options on the __Home page__ :
 1. '*Je souhaite trouver un substitut à un aliment*' [ Find a susbstitute ]
@@ -18,6 +18,7 @@ Choose one of this two options on the __Home page__ :
 
 First, choose a __category__ of products.
 Second, choose a __product__ in this category.
+
 *Pur Beurre* will propose you a healthier alternative to this product (with some details).
 
 Then, you can choose to save this result (only the sustitute, not the initial product).
