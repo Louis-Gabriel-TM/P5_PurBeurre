@@ -3,7 +3,7 @@
 
 
 """
-Pur Beurre, an application to find healthier products.
+Pur Beurre, an application to find a healthier food.
 5th project of OC Python Developer Path.
 
 Author: Loïc Mangin
