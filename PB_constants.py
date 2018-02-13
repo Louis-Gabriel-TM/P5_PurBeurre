@@ -12,15 +12,15 @@ Author: Loïc Mangin
 OPT_1_TEXT = "Je souhaite trouver un substitut à un aliment"
 OPT_2_TEXT = "Je souhaite revoir les substituts que j'ai enregistré"
 
-PB_CATEGORIES = ['aliments-origine-végétale',
-                 'biscuits-gateaux',
-                 'boissons',
-                 'céréales-pommes-terre',
-                 'desserts',
-                 'plats-préparés',
-                 'produits-laitiers',
-                 'snacks-sucrés',
-                 'viandes']
+PB_CATEGORIES = {"Aliments d'origine végétale",
+                 "Biscuits et gâteaux",
+                 "Boissons",
+                 "Céréales et pommes de terre",
+                 "Desserts",
+                 "Plats préparés",
+                 "Produits laitiers",
+                 "Snacks sucrés",
+                 "Viandes"}
 
 # CORPORATE IDENTITY AND STYLE GUIDE CONSTANTS
 

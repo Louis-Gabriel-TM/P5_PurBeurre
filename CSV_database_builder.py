@@ -14,40 +14,30 @@ Author: Loïc Mangin
 import pandas as pd
 import pymysql
 
+from PB_constants import *
+
 """
 ------------------------------------------------------
 PARSING FUNCTIONS FOR CSV FILES FROM 'OPEN FOOD FACTS'
 ------------------------------------------------------
 """
 
-def add_nutriscore(data):
+def add_nutriscore(dataframe):
     """Add a column 'nutriscore' (A, B, C, D, E)
-    based on 'main_category' (index=3)
-    and 'nutrition-score-fr_100g' (index=4) fields.
+    based on 'main_category' (index=4)
+    and 'nutrition-score-fr_100g' (index=5) fields.
     """
     score = []
-    for row in data.values:
-        score.append(nutriscore(row[3], row[4]))
-    data['nutriscore'] = pd.Series(score)
-    return data
+    for row in dataframe.values:
+        score.append(nutriscore(row[4], row[5]))
+    dataframe['nutriscore'] = pd.Series(score)
+    return dataframe
 
 def nutriscore(main_category, score):
     """Find the used scales at
     https://fr.openfoodfacts.org/score-nutritionnel-experimental-france
     """
-    if main_category.find('BOISSON') == -1:
-        # Use nutriscore scale for food
-        if -15 <= score <= -2:
-            return 'A'
-        elif -1 <= score <= 3:
-            return 'B'
-        elif 4 <= score <= 11:
-            return 'C'
-        elif 12 <= score <= 16:
-            return 'D'
-        else:
-            return 'E'
-    else:
+    if main_category.upper().find('BOISSON') != -1:
         # Use nutriscore scale for drinks
         if -15 <= score <= 0:
             return 'A'
@@ -59,6 +49,32 @@ def nutriscore(main_category, score):
             return 'D'
         else:
             return 'E'
+    else:
+        # Use nutriscore scale for food
+        if -15 <= score <= -2:
+            return 'A'
+        elif -1 <= score <= 3:
+            return 'B'
+        elif 4 <= score <= 11:
+            return 'C'
+        elif 12 <= score <= 16:
+            return 'D'
+        else:
+            return 'E'
+
+def parse_CSV_data(dataframe):
+    pb_categories = {category.lower() for category in PB_CATEGORIES}
+    for i in dataframe.index:
+        categories = dataframe.loc[i,'categories'].split(",")
+        categories = {category.lower().strip() for category in categories}
+        if pb_categories & categories != set():
+            new_cat = str(list(pb_categories & categories)[0])
+        else:
+            new_cat = None
+        dataframe.at[i, 'categories'] = new_cat
+    dataframe = dataframe.dropna()
+    dataframe = dataframe.reset_index(drop=True)
+    return dataframe
 
 def read_CSV_data(file):
     """Return a DataFrame containing the
@@ -66,27 +82,28 @@ def read_CSV_data(file):
     without NaN field,
     extracted from an Open Food Facts CSV file.
     """
-    PB_index = ['product_name',
+    PB_index = ['url',
+                'product_name',
                 'brands',
+                'categories',
                 'main_category',
-                'nutrition-score-fr_100g',
-                'url']
-    data = pd.read_csv(file, sep='\t',
+                'nutrition-score-fr_100g']
+    dataframe = pd.read_csv(file, sep='\t',
                        usecols=PB_index)
-    data = data.dropna()
-    data = data.reset_index(drop=True)
-    return data
+    dataframe = dataframe.dropna()
+    dataframe = dataframe.reset_index(drop=True)
+    return dataframe
 
-def format_data(data):
+def format_CSV_data(dataframe):
     """Return the DataFrame with its string fields modified.
     """
-    data['product_name'] = pd.DataFrame(name.capitalize()
-                                    for name in data['product_name'])
-    data['brands'] = pd.DataFrame(brand.capitalize()
-                                    for brand in data['brands'])
-    data['main_category'] = pd.DataFrame(category[3:].capitalize()
-                                    for category in data['main_category'])
-    return data
+    dataframe['product_name'] = pd.DataFrame(name.capitalize()
+                                    for name in dataframe['product_name'])
+    dataframe['brands'] = pd.DataFrame(brand.capitalize()
+                                    for brand in dataframe['brands'])
+    dataframe['main_category'] = pd.DataFrame(category[3:].capitalize()
+                                    for category in dataframe['main_category'])
+    return dataframe
 
 """
 --------------------------------------------
@@ -122,7 +139,8 @@ def create_tables(socket):
                                 id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                                 id_category TINYINT UNSIGNED NOT NULL,
                                 name VARCHAR(200) NOT NULL,
-                                main_category VARCHAR(200) NOT NULL,
+                                category VARCHAR(200) NOT NULL,
+                                family VARCHAR(200) NOT NULL,
                                 brands VARCHAR(200) NOT NULL,
                                 score_100g TINYINT NOT NULL,
                                 nutriscore CHAR(1) NOT NULL,
@@ -153,7 +171,7 @@ def create_tables(socket):
 def insert_category(socket, category):
     with socket.cursor() as cursor:
         cursor.execute(""" INSERT INTO Category (name)
-                               VALUES ('{}'); """
+                               VALUES ("{}"); """
                        .format(category))
 
 def insert_product(socket, category, product):
@@ -162,37 +180,48 @@ def insert_product(socket, category, product):
                                                  url,
                                                  name,
                                                  brands,
-                                                 main_category,
+                                                 category,
+                                                 family,
                                                  score_100g,
                                                  nutriscore)
                                 VALUES ((SELECT id FROM Category
                                              WHERE name = "{0}"),
                                         "{1}", "{2}", "{3}", "{4}", {5}, "{6}"); """
-                       .format(category, product[0], product[1], product[2], product[3], product[4], product[5]))
+                       .format(category, product[0], product[1], product[2], product[3], product[4], product[5], product[6]))
     socket.commit()
 
 
 def main():
-    categories =['boissons']
+    #for category in PB_CATEGORIES:
+    #    print(category)
+
 
     # PARSING CSV FILES FROM 'OPEN FOOD FACTS'
-    for category in categories:
-        PB_data = read_CSV_data(category + '.csv')
-        PB_data = format_data(PB_data)
-        PB_data = add_nutriscore(PB_data)
+    PB_data = read_CSV_data('boissons.csv')
+    #print(PB_data[:5])
+    PB_data = parse_CSV_data(PB_data)
+    #print(PB_data[:5])
+
+    PB_data = format_CSV_data(PB_data)
+    PB_data = add_nutriscore(PB_data)
+    print(PB_data[:5])
 
     # BUILDING 'PUR BEURRE' DATABASE
     db = connect_db()
     create_tables(db)
-    for category in categories:
+
+    for category in PB_CATEGORIES:
         insert_category(db, category)
+    """
     for product in PB_data.values:
         print(product)
         insert_product(db, 'boissons', product)
         for j in range(6):
             print(product[j])
         print()
+    """
     disconnect_db(db)
+
 
 
 if __name__ == "__main__":
