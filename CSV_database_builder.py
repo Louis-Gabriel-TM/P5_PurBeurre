@@ -130,17 +130,6 @@ BUILDING FUNCTIONS FOR 'PUR BEURRE' DATABASE
 """
 
 
-def connect_db():
-    """Return an access to the 'Pur Beurre' database previously created.
-    """
-    socket = pymysql.connect(host='localhost',
-                             user='remy',
-                             passwd='ratatouille',
-                             db='PurBeurre_db',
-                             charset='utf8')
-    return socket
-
-
 def create_tables(socket):
     """Drop existing tables of the 'Pur Beurre' database and recreate them.
     """
@@ -188,7 +177,18 @@ def create_tables(socket):
                                 DEFAULT CHARSET = 'utf8'; """)
 
 
-def disconnect_db(socket):
+def db_connect():
+    """Return an access to the 'Pur Beurre' database previously created.
+    """
+    socket = pymysql.connect(host='localhost',
+                             user='remy',
+                             passwd='ratatouille',
+                             db='PurBeurre_db',
+                             charset='utf8')
+    return socket
+
+
+def db_disconnect(socket):
     """Push the modifications in the 'Pur Beurre' database
     and close access to it.
     """
@@ -217,10 +217,9 @@ def insert_product(socket, product):
                                                  score_100g,
                                                  nutriscore)
                                 VALUES ((SELECT id FROM Category
-                                             WHERE name = "{0}"),
-                                        "{1}", "{2}", "{3}", "{4}", {5}, "{6}"); """
+                                             WHERE name = "{0}"), "{1}",
+                                              "{2}", "{3}", "{4}", {5}, "{6}"); """
                        .format(product[3], product[0], product[1], product[2], product[4], product[5], product[6]))
-    socket.commit()
 
 
 def main():
@@ -232,7 +231,7 @@ def main():
     pb_data = add_nutriscore(pb_data)
 
     # --- BUILDING 'PUR BEURRE' DATABASE ---
-    db = connect_db()
+    db = db_connect()
     create_tables(db)
     for category in PB_CATEGORIES:
         insert_category(db, category)
@@ -243,7 +242,7 @@ def main():
         print(product)
         insert_product(db, product)
         print()
-    disconnect_db(db)
+    db_disconnect(db)
 
 
 if __name__ == "__main__":
