@@ -40,6 +40,6 @@ __PurBeurre.py__ is the main script of the application, using the previously cre
 
 __Note :__ *PB_tkinter.py* will offer a graphic interface to the application (in progress).
 
-#### Data Model of the MySQL database
+## Data Model of the MySQL database :
 
 ![Data Model](https://github.com/Louis-Gabriel-TM/PurBeurre/blob/master/images/data_model.JPG)
