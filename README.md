@@ -42,4 +42,4 @@ __Note :__ *PB_tkinter.py* will offer a graphic interface to the application (in
 
 ## Data Model of the MySQL database :
 
-![Data Model](https://github.com/Louis-Gabriel-TM/PurBeurre/blob/master/images/data_model.JPG)
+![Data Model](https://github.com/Louis-Gabriel-TM/PurBeurre/blob/master/images/"data_model .JPG")
