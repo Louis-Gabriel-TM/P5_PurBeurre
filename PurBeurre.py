@@ -12,7 +12,7 @@ Author: Loïc Mangin
 
 
 from classes.category import *
-from classes.saved_substitute import *
+from classes.saved_substitute import *  # also import classes.product
 from PB_constants import *
 
 import pymysql
@@ -97,7 +97,7 @@ def get_saved_substitutes(socket, nb):
                                 LIMIT {0}; """.format(nb))
         saved_tuples = cursor.fetchall()
     for saved_sub in saved_tuples:
-        saved_substitute = Saved_substitute(saved_sub[0], saved_sub[1],
+        saved_substitute = SavedSubstitute(saved_sub[0], saved_sub[1],
                                             saved_sub[2], saved_sub[3])
         saved_list.append(saved_substitute)
     return saved_list
@@ -146,6 +146,7 @@ def save_substitute(socket, product, substitute):
                                 VALUES ({0}, {1}, CURRENT_DATE()); """
                        .format(product.id, substitute.id))
     print("Produit et substitut sauvegardés.")
+    socket.commit()
 
 
 """
@@ -227,7 +228,8 @@ def display_excerpt(prod_list, head):
     for product in prod_list:
         i += 1
         print("  " + str(i) + "." + " " * (2 - (i // 10)) + product.name
-              + " (" + product.nutriscore + ", " + str(product.score_100g) + ")"
+              + " (" + product.nutriscore + ", "
+              + str(product.score_100g) + ")"
               )
 
 

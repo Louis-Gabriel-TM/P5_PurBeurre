@@ -50,7 +50,8 @@ PRODUCT_ALT = "Ce produit n'est pas proposé."
 NO_RESULT = ">>> Désolé, 'Pur Beurre' n'a pu trouver aucun substitut <<<"
 
 SUBSTITUTE_HEAD = "Substituts proposés"
-SUBSTITUTE_ASK = "Sur quel substitut souhaitez-vous davantage d'informations : "
+SUBSTITUTE_ASK = "Sur quel substitut souhaitez-vous " \
+                 "davantage d'informations : "
 SUBSTITUTE_ALT = "Ce substitut n'est pas proposé."
 
 SAVE_ASK = "Souhaitez-vous sauvegarder ce résultat : "
