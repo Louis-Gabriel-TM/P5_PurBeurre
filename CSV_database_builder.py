@@ -222,6 +222,13 @@ def insert_product(socket, product):
                        .format(product[3], product[0], product[1], product[2], product[4], product[5], product[6]))
 
 
+"""
+-------------
+MAIN FUNCTION
+-------------
+"""
+
+
 def main():
     # --- PARSING CSV FILES FROM 'OPEN FOOD FACTS' ---
     pb_data = read_csv_data('fr.openfoodfacts.org.products.csv')
