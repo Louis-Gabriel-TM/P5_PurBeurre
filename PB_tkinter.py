@@ -9,36 +9,79 @@ Graphic Interface used by the Pur Beurre application.
 Author: Loïc Mangin
 """
 
-from pb_constants import *
-from tkinter import *
+
+import tkinter as tk
+
+from PB_constants import *
+
+
+""" BUTTONS """
+
+class Category_button():
+    pass
+
+class Home_button():
+    pass
+
+class Exit_button():
+    pass
+
+class Info_button():
+    pass
+
+class Option_button():
+    pass
+
+class Previous_button():
+    pass
+
+class Save_button():
+    pass
+
+""" GRID AND MENU """
+
+class Category_grid():
+    pass
+
+class Drop_down_menu():
+    pass
+
+class Footer_grid():
+    pass
+
+class Product_grid():
+    pass
+
+class Result_grid():
+    pass
+
+""" PUR BEURRE BRAND ELEMENTS """
+
+class PB_headline():
+    pass
+
+class PB_logo():
+    pass
+
+class PB_welcome(tk.Frame):
+    pass
+
+
+def PB_window():
+    window = tk.Tk()
+    window.title(PB_BRAND)
+    main_frame = tk.Frame(background=BRAND_COLOR_2,
+                          width=960,
+                          height=640)
+    main_frame.pack()
+    return window
 
 
 def main():
-    window = Tk()
+    window = PB_window()
 
-    headline = Label(window,
-                     text=pb_headline,
-                     bg=brand_color_1, fg=font_color_2)
+    headline = tk.Label(window, text=PB_BRAND)
     headline.pack()
-
-    opt_1_button = Radiobutton(window,
-                       text=option_1_text,
-                       bg=brand_color_2, fg=font_color_1,
-                       command=window.quit)
-    opt_1_button.pack()
-
-    opt_2_button = Radiobutton(window,
-                          text=option_2_text,
-                          bg=brand_color_2, fg=font_color_1,
-                          command=window.quit)
-    opt_2_button.pack()
-
-    var_text = StringVar()
-    choice = Entry(window,
-                   textvariable=var_text,
-                   bg=bonbon, fg=font_color_2,
-                   width=30)
-    choice.pack()
 
     window.mainloop()
 
