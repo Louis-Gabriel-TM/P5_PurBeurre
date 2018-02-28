@@ -12,8 +12,14 @@ Author: Loïc Mangin
 
 
 class Product:
+    """Product class used by the 'Pur Beurre' application.
+    Data come from Open Food Facts french database.
+    """
     def __init__(self, id, id_category, name, subcategory, brands,
                  score_100g, nutriscore, url):
+        """More details about Product attributes
+        on the data_model.JPG file.
+        """
         self.id = id
         self.id_category = id_category
         self.name = name
@@ -24,6 +30,8 @@ class Product:
         self.url =url
 
     def display(self):
+        """Display most attributes for a french user.
+        """
         print("Nom          : " + self.name.upper())
         print("Marque       : " + self.brands)
         print("Description  : " + self.subcategory)
