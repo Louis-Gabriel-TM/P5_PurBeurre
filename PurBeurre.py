@@ -98,7 +98,7 @@ def get_saved_substitutes(socket, nb):
         saved_tuples = cursor.fetchall()
     for saved_sub in saved_tuples:
         saved_substitute = SavedSubstitute(saved_sub[0], saved_sub[1],
-                                            saved_sub[2], saved_sub[3])
+                                           saved_sub[2], saved_sub[3])
         saved_list.append(saved_substitute)
     return saved_list
 

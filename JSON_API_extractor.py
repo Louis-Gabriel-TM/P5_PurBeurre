@@ -41,7 +41,7 @@ def format_duration(duration):
 def format_int(n):
     """Return the integer n in a '3-digits' format, with n < 1 000 000.
     """
-    return str(n // 1000) + " " + str(n % 1000)
+    return str(n // 1000) + " " + str(n % 1000).zfill(3)
 
 
 def get_categories():
@@ -70,6 +70,7 @@ def get_products(max_requests):
                     request_url = url + "/" + str(i) + ".json"
                     print(request_url)
                     data = requests.get(request_url).json()
+                    #print(data)
                     f.write(json.dumps(data, indent=4))
                     requests_count += 1
     print()
