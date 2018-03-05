@@ -36,7 +36,7 @@ The aim is to show this approach is not appropriate because the recovery of the 
 __CSV_database_builder.py__ uses the CSV file, downloaded from *Open Food Facts*, containing the entire french data.
 The data are parsed using *dataframes* of the *pandas* library, then stored in a MySQL database, using *pymysql* library.
 
-Download the french *Open Food Facts* database as a CSV file (more than 1.4 Go) : [](https://fr.openfoodfacts.org/data/fr.openfoodfacts.org.products.csv)
+Download the french *Open Food Facts* database as a CSV file (more than 1.4 Go) : [download CSV file](https://fr.openfoodfacts.org/data/fr.openfoodfacts.org.products.csv)
 
 __PurBeurre.py__ is the main script of the application, using the previously created MySQL database.
 
