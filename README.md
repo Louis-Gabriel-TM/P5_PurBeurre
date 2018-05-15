@@ -1,6 +1,6 @@
 # Pur Beurre
 
-This repository contains the Python / MySQL scripts and additional files of my __5th project for the *Pyton Developer Path* in *OpenClassrooms*__.
+This repository contains the Python scripts and additional files of my __4th project__ for the __*Python Developer Path* in [*OpenClassrooms*](https://openclassrooms.com/paths/developpeur-se-dapplication-python)__.
 
 This application is based on the __*Open Food Facts database*__ and uses its API (not really, in fact).
 
@@ -42,6 +42,6 @@ __PurBeurre.py__ is the main script of the application, using the previously cre
 
 __Note :__ *PB_tkinter.py* will offer a graphic interface to the application (in progress).
 
-## Data Model of the MySQL database :
+### Data Model of the MySQL database :
 
 ![Data Model](https://github.com/Louis-Gabriel-TM/PurBeurre/blob/master/images/data_model.JPG)
