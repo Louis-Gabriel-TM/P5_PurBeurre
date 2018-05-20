@@ -46,6 +46,6 @@ __Note :__ *PB_tkinter.py* will offer a graphic interface to the application (in
 
 ![Data Model](https://github.com/Louis-Gabriel-TM/PurBeurre/blob/master/images/data_model.JPG)
 
-### The Trello dashboard used for this project
+### The Trello dashboard used for this project :
 
 ![Trello dashboard](https://github.com/Louis-Gabriel-TM/P5_PurBeurre/blob/master/images/P5%20-%20Capture%20dashboard%20Trello.JPG)
